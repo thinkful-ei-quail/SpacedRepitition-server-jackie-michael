@@ -1,0 +1,13 @@
+dog = cane
+cat= gatto
+blue = blu
+red = rosso
+yellow = giallo
+cookie = biscotto
+beer = birra
+breakfast = colazione
+cheese = formaggio
+yes = si
+no = no
+father = padre
+mother = madre
