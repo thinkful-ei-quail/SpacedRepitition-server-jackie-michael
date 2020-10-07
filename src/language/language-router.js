@@ -45,15 +45,15 @@ languageRouter
   .use(requireAuth)
   .get('/head', async (req, res, next) => {
     try {
-    const word = await LanguageService.getNextWord(
+    const headWord = await LanguageService.getNextWord(
       req.app.get('db'),
       req.language.head,
       )
       res.json({
-        nextWord:word.original,
-        totalScore:req.language.total_score,
-        wordCorrectCount:word.correct_count,
-        wordIncorrectCount:word.incorrect_count
+        nextWord: headWord.original,
+        totalScore: req.language.total_score,
+        wordCorrectCount: headWord.correct_count,
+        wordIncorrectCount: headWord.incorrect_count
       })
       next()
     } catch (error) {
