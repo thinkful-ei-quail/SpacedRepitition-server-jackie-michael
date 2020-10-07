@@ -30,6 +30,7 @@ const LanguageService = {
       )
       .where({ language_id })
   },
+  
   getNextWord(db, id) {
     return db
     .from('word')
