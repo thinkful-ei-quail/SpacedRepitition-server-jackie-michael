@@ -77,7 +77,13 @@ languageRouter
       req.language,
       words
     )
-console.log(wordList)
+    //Check if the submitted answer is correct by comparing it with the translation in the database.
+    if(req.body.guess === wordList.head.value.translation) {
+      //Update the incorrect count or correct count for that word.
+      wordList.head.value.correct_count++
+      //Set the word's new memory value as appropriate according to the algorithm.
+      
+    }
   })
 
 module.exports = languageRouter
