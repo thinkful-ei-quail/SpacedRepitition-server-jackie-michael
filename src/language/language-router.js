@@ -67,6 +67,17 @@ languageRouter
         error: `Missing 'guess' in request body`,
       })
     }
+
+    const words = await LanguageService.getLanguageWords(
+      req.app.get('db'),
+      req.language.id
+    )
+    const wordList = LanguageService.wordList(
+      req.app.get('db'),
+      req.language,
+      words
+    )
+console.log(wordList)
   })
 
 module.exports = languageRouter

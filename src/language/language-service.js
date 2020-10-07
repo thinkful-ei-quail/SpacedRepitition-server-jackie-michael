@@ -38,6 +38,7 @@ const LanguageService = {
       'id',
       'next',
       'original',
+      'translation',
       'correct_count',
       'incorrect_count',
     )
