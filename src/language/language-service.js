@@ -48,6 +48,28 @@ const LanguageService = {
     let wordList = new LinkedList()
     wordList.id = language.id
     wordList.name = language.name
+    wordList.total_score = language.total_score
+    let word = words.find(w => w.id === language.head)
+    wordList.insertFirst({
+      id:word.id,
+      original: word.original,
+      translation: word.translation,
+      memory_value: word.memory_value,
+      correct_count: word.correct_count,
+      incorrect_count: word.incorrect_count
+    })
+    while(word.next) {
+      word = words.find(w => w.id === word.next)
+      wordList.insertLast({
+        id:word.id,
+        original: word.original,
+        translation: word.translation,
+        memory_value: word.memory_value,
+        correct_count: word.correct_count,
+        incorrect_count: word.incorrect_count
+      })
+    }
+    return wordList
   }
 }
 
