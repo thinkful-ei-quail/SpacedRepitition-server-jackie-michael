@@ -82,7 +82,15 @@ languageRouter
         //Update the incorrect count or correct count for that word.
         wordList.head.value.correct_count++
         //Set the word's new memory value as appropriate according to the algorithm.
-        
+        let m = wordList.head.value.memory_value
+        m = (m * 2 >= wordList.listLength().length ? m.listNodes.length -1
+        : m * 2)
+        wordList.head.value.total_score++
+        wordList.moveHead(wordList.head.value.memory_value);
+      } else {
+        wordList.head.value.incorrect_count++
+        wordList.head.value.memory_value = 1
+        wordList.moveHead(wordList.head.value.memory_value)
       }
       next()
     } catch(error) {

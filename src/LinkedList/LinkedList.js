@@ -15,6 +15,20 @@ class _Node {
         current = current.next;
       }
     }
+    listLength() {
+        let node = this.head;
+        const arr = [];
+        while (node) {
+          arr.push(node);
+          node = node.next;
+        }
+        return arr;
+      }
+      moveHead(node) {
+        let head = this.head;
+        this.head = this.head.next;
+        this.insertAt(node, head.value);
+      }
     size() {
       let current = this.head;
       let count = 0;
@@ -123,25 +137,25 @@ class _Node {
       node.next = current.next;
       current.next = node;
     }
-    insertAt(item, index) {
-      if (index > 0 && index > this.size) {
-        return;
+    insertAt(nthPosition, itemToInsert) {
+      if (nthPosition < 0) {
+        throw new Error('Position error');
       }
-      if (index === 0) {
-        this.insertFirst(item);
-        return;
+      if (nthPosition === 0) {
+        this.insertFirst(itemToInsert);
+      } else {
+        const node = this._findNthElement(nthPosition - 1);
+        const newNode = new _Node(itemToInsert, null);
+        newNode.next = node.next;
+        node.next = newNode;
       }
-      const node = new _Node(item);
-      let current, previous;
-      current = this.head;
-      let count = 0;
-      while (count < index) {
-        previous = current;
-        count++;
-        current = current.next;
+    }
+    _findNthElement(position) {
+      let node = this.head;
+      for (let i = 0; i < position; i++) {
+        node = node.next;
       }
-      node.next = current;
-      previous.next = node;
+      return node;
     }
     insertLast(item) {
       if (this.head === null) {
