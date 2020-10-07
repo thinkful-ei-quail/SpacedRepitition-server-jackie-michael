@@ -92,19 +92,22 @@ languageRouter
             wordCorrectCount: wordList.head.value.correct_count,
             wordIncorrectCount: wordList.head.value.incorrect_count,
             totalScore: wordList.total_score,
+            answer: req.body.guess,
             isCorrect: true,
           });
         });
       } else {
-        wordList.head.value.incorrect_count++
+        wordList.head.value.incorrect_count += 1
+        console.log(wordList.head.value.incorrect_count)
         wordList.head.value.memory_value = 1
         wordList.moveHead(wordList.head.value.memory_value)
         LanguageService.saveWord(req.app.get('db'), wordList).then(() => {
           res.json({
-            nextWord: wordList.head.value.original,
+            nextWord: wordList.head.next.value.original,
             wordCorrectCount: wordList.head.value.correct_count,
             wordIncorrectCount: wordList.head.value.incorrect_count,
             totalScore: wordList.total_score,
+            answer:wordList.head.value.translation,
             isCorrect: false,
           });
       next()
