@@ -42,7 +42,6 @@ languageRouter
     }
   })
 languageRouter
-  .use(requireAuth)
   .get('/head', async (req, res, next) => {
     try {
     const headWord = await LanguageService.getNextWord(
