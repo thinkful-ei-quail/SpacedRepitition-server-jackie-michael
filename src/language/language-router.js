@@ -76,10 +76,28 @@ languageRouter
         req.language,
         words
       )
-      //Check if the submitted answer is correct by comparing it with the translation in the database.
-      if(req.body.guess === wordList.head.value.translation) {
-        console.log(req.body.guess)
-        console.log(wordList.head.value.translation)
+      //this is the if incorrect segment
+      let guess = req.body.guess.toLowerCase()
+      let answer = wordList.head.value.translation.toLowerCase()
+      if(guess !== answer) {
+        wordList.head.value.incorrect_count + 1
+        wordList.head.value.memory_value = 1
+        let rightAnswer = wordList.head.value.translation
+        wordList.moveHead(wordList.head.value.memory_value)
+        LanguageService.saveWord(req.app.get('db'), wordList).then(() => {
+          res.json({
+            nextWord: wordList.head.value.original,
+            wordCorrectCount: wordList.head.value.correct_count,
+            wordIncorrectCount: wordList.head.value.incorrect_count,
+            totalScore: wordList.total_score,
+            answer:rightAnswer,
+            isCorrect: false,
+          });
+          next()
+        });
+      } else {
+
+        //this is the if correct segment
         wordList.head.value.correct_count++
         let m = wordList.head.value.memory_value
         m = (m * 2 >= wordList.listLength().length ? m.listNodes.length -1
@@ -88,28 +106,12 @@ languageRouter
         wordList.moveHead(m);
         LanguageService.saveWord(req.app.get('db'), wordList).then(() => {
           res.json({
-            nextWord: wordList.head.next.value.original,
+            nextWord: wordList.head.value.original,
             wordCorrectCount: wordList.head.value.correct_count,
             wordIncorrectCount: wordList.head.value.incorrect_count,
             totalScore: wordList.total_score,
             answer: req.body.guess,
             isCorrect: true,
-          });
-        });
-      } else {
-        wordList.head.value.incorrect_count += 1
-        wordList.head.value.memory_value = 1
-        console.log()
-        wordList.moveHead(wordList.head.value.memory_value)
-        console.log()
-        LanguageService.saveWord(req.app.get('db'), wordList).then(() => {
-          res.json({
-            nextWord: wordList.head.next.value.original,
-            wordCorrectCount: wordList.head.value.correct_count,
-            wordIncorrectCount: wordList.head.value.incorrect_count,
-            totalScore: wordList.total_score,
-            answer:wordList.head.value.translation,
-            isCorrect: false,
           });
       next()
         })
