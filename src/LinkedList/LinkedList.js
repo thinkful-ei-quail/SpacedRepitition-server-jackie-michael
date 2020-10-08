@@ -24,11 +24,11 @@ class _Node {
         }
         return arr;
       }
-      moveHead(node) {
-        let head = this.head;
-        this.head = this.head.next;
-        this.insertAt(node, head.value);
-      }
+    moveHead(index) {
+      let item = this.head;
+      this.head = this.head.next;
+      this.insertAt(item, index);
+    }
     size() {
       let current = this.head;
       let count = 0;
@@ -137,25 +137,25 @@ class _Node {
       node.next = current.next;
       current.next = node;
     }
-    insertAt(nthPosition, itemToInsert) {
-      if (nthPosition < 0) {
-        throw new Error('Position error');
+    insertAt(item, index) {
+      if (index > 0 && index > this.size) {
+        return;
       }
-      if (nthPosition === 0) {
-        this.insertFirst(itemToInsert);
-      } else {
-        const node = this._findNthElement(nthPosition - 1);
-        const newNode = new _Node(itemToInsert, null);
-        newNode.next = node.next;
-        node.next = newNode;
+      if (index === 0) {
+        this.insertFirst(item);
+        return;
       }
-    }
-    _findNthElement(position) {
-      let node = this.head;
-      for (let i = 0; i < position; i++) {
-        node = node.next;
+      const node = new _Node(item);
+      let current, previous;
+      current = this.head;
+      let count = 0;
+      while (count < index) {
+        previous = current;
+        count++;
+        current = current.next;
       }
-      return node;
+      node.next = current;
+      previous.next = node;
     }
     insertLast(item) {
       if (this.head === null) {

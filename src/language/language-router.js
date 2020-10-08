@@ -78,19 +78,17 @@ languageRouter
       )
       //Check if the submitted answer is correct by comparing it with the translation in the database.
       if(req.body.guess === wordList.head.value.translation) {
+        console.log(req.body.guess)
+        console.log(wordList.head.value.translation)
         wordList.head.value.correct_count++
         let m = wordList.head.value.memory_value
-
         m = (m * 2 >= wordList.listLength().length ? m.listNodes.length -1
         : m * 2)
-
         wordList.total_score++
         wordList.moveHead(m);
-        console.log('memory value', m)
-
         LanguageService.saveWord(req.app.get('db'), wordList).then(() => {
           res.json({
-            nextWord: wordList.head.value.original,
+            nextWord: wordList.head.next.value.original,
             wordCorrectCount: wordList.head.value.correct_count,
             wordIncorrectCount: wordList.head.value.incorrect_count,
             totalScore: wordList.total_score,
@@ -103,13 +101,14 @@ languageRouter
         wordList.head.value.memory_value = 1
         console.log()
         wordList.moveHead(wordList.head.value.memory_value)
+        console.log()
         LanguageService.saveWord(req.app.get('db'), wordList).then(() => {
           res.json({
-            nextWord: wordList.head.value.original,
+            nextWord: wordList.head.next.value.original,
             wordCorrectCount: wordList.head.value.correct_count,
             wordIncorrectCount: wordList.head.value.incorrect_count,
             totalScore: wordList.total_score,
-            answer:wordList.head.next.value.translation,
+            answer:wordList.head.value.translation,
             isCorrect: false,
           });
       next()
