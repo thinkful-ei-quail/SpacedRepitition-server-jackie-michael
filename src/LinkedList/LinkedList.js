@@ -10,8 +10,7 @@ class _Node {
     }
     display() {
       let current = this.head;
-      while (current) {
-        console.log(current.value);
+      while (current !== null) {
         current = current.next;
       }
     }
@@ -24,26 +23,19 @@ class _Node {
         }
         return arr;
       }
-    moveHead(index) {
-      let item = this.head;
-      this.head = this.head.next;
-      this.insertAt(item, index);
-    }
+  
     size() {
       let current = this.head;
       let count = 0;
-      while (current) {
-        current = current.next;
+      while (current !== null) {
         count++;
+        current = current.next;
       }
-      console.log(count);
+      return count;
     }
     isEmpty() {
-      if (this.head === null) {
-        console.log("true");
-      } else {
-        console.log("false");
-      }
+      if(this.head === null ) return true;
+      return false
     }
     findPrevious(item) {
       let current = this.head;
@@ -62,18 +54,16 @@ class _Node {
           current = current.next;
         }
       }
-      console.log(previous.value);
     }
     findLast() {
       let current = this.head;
       while(current.next !== null) {
         current = current.next;
       }
-      console.log(current.value)
     }
     insertFirst(item) {
       this.head = new _Node(item, this.head);
-      this.next = null;
+      //this.next = null;
     }
     findIndex(item) {
       // Start at the head
@@ -98,64 +88,82 @@ class _Node {
       return index;
     }
     insertBefore(item, key) {
-      if (!key) {
-        return;
-      }
-      if (this.head === null) {
-        this.insertFirst(item);
-        return;
-      }
-      const node = new _Node(item);
-      let previous;
+      // if (!key) {
+      //   return;
+      // }
+      // if (this.head === null) {
+      //   this.insertFirst(item);
+      //   return;
+      // }
+      // const node = new _Node(item);
+      // let previous;
+      // let current = this.head;
+      // while (current && current.value !== key) {
+      //   previous = current;
+      //   current = current.next;
+      // }
+      // if (!previous) {
+      //   this.insertFirst(item);
+      // } else {
+      //   node.next = current;
+      //   previous.next = node;
+      // }
       let current = this.head;
-      while (current && current.value !== key) {
-        previous = current;
+      while(key !== current.next.value){
         current = current.next;
       }
-      if (!previous) {
-        this.insertFirst(item);
-      } else {
-        node.next = current;
-        previous.next = node;
-      }
+      let findValue = this.find(key)
+      current.next = new _Node(item, findValue) 
     }
     insertAfter(item, key) {
-      if (!key) {
-        throw "what key?";
-      }
-      if (this.head === null) {
-        throw "Key doesn't exist";
-      }
-      const node = new _Node(item);
-      let current = this.head;
-      while (current && current.value !== key) {
-        current = current.next;
-      }
-      if (!current) {
-        throw "key does not exist";
-      }
-      node.next = current.next;
-      current.next = node;
+      // if (!key) {
+      //   throw "what key?";
+      // }
+      // if (this.head === null) {
+      //   throw "Key doesn't exist";
+      // }
+      // const node = new _Node(item);
+      // let current = this.head;
+      // while (current && current.value !== key) {
+      //   current = current.next;
+      // }
+      // if (!current) {
+      //   throw "key does not exist";
+      // }
+      // node.next = current.next;
+      // current.next = node;
+      let findValue = this.find(value);
+      let tempNext = findValue.next;
+      findValue.next = new _Node(item, tempNext)
     }
     insertAt(item, index) {
-      if (index > 0 && index > this.size) {
-        return;
-      }
-      if (index === 0) {
-        this.insertFirst(item);
-        return;
-      }
-      const node = new _Node(item);
-      let current, previous;
-      current = this.head;
+      // if (index > 0 && index > this.size) {
+      //   return;
+      // }
+      // if (index === 0) {
+      //   this.insertFirst(item);
+      //   return;
+      // }
+      // const node = new _Node(item);
+      // let current, previous;
+      // current = this.head;
+      // let count = 0;
+      // while (count < index) {
+      //   previous = current;
+      //   count++;
+      //   current = current.next;
+      // }
+      // node.next = current;
+      // previous.next = node;
+      let current = this.head;
       let count = 0;
-      while (count < index) {
-        previous = current;
-        count++;
+      while(current.next !== null){
+        if(count === index){
+          this.insertBefore(item, current.value)
+        }
         current = current.next;
+        count++
       }
-      node.next = current;
-      previous.next = node;
     }
     insertLast(item) {
       if (this.head === null) {
@@ -210,7 +218,6 @@ class _Node {
         currNode = currNode.next;
       }
       if (currNode === null) {
-        console.log("Item not found");
         return;
       }
       previousNode.next = currNode.next;

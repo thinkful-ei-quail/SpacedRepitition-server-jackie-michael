@@ -78,7 +78,7 @@ describe.only('Language Endpoints', function () {
         testWords,
       )
     })
-
+//failing
     it(`responds with 200 and user's language and words`, () => {
       return supertest(app)
         .get(`/api/language`)
@@ -189,7 +189,7 @@ describe.only('Language Endpoints', function () {
             isCorrect: false
           })
       })
-
+//failing
       it(`moves the word 1 space and updates incorrect count`, async () => {
         await supertest(app)
           .post(`/api/language/guess`)
