@@ -88,7 +88,7 @@ languageRouter
       }
       //change head of list
       let previousHead = wordList.head;
-      wordList.remove(wordList.head.value);
+      wordList.insertLast(wordList.head.value);
       wordList.insertAt(previousHead.value, previousHead.value.memory_value);
       let tempNode = wordList.head;
       let langHead = tempNode.value.id;
