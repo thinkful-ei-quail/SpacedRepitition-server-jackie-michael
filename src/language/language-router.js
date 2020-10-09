@@ -57,7 +57,7 @@ languageRouter
     }
   })
 languageRouter
-  .post('/guess',bodyParser, async (req, res, next) => {
+  .post('/guess', bodyParser, async (req, res, next) => {
     if(!Object.keys(req.body).includes('guess')){
       return res.status(400).json({
         error: `Missing 'guess' in request body`,
@@ -87,9 +87,10 @@ languageRouter
         wordList.head.value.memory_value = 1;
       }
       //change head of list
+      //TODO change insert
       let previousHead = wordList.head;
       wordList.remove(wordList.head.value);
-      wordList.insertAt(previousHead.value, previousHead.value.memory_value);
+      wordList.insertLast(previousHead.value, previousHead.value.memory_value);
       let tempNode = wordList.head;
       let langHead = tempNode.value.id;
       while (tempNode !== null) {
